@@ -1,33 +1,33 @@
 {
-  "name": "@mrkutly/taboola-react-plugin",
-  "version": "1.0.6",
-  "description": "Plugin for implementing taboola in react projects",
-  "main": "build/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mrkutly/taboola-react.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mrkutly/taboola-react/issues"
-  },
-  "peerDependencies": {},
-  "dependencies": {
-    "react": "^16.8.6",
-    "webpack": "^2.6.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch",
-    "build": "webpack"
-  },
-  "author": "Mark Sauer-Utley",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.5.1"
-  }
+	"name": "@mrkutly/taboola-react-plugin",
+	"version": "1.0.7",
+	"description": "Plugin for implementing taboola in react projects",
+	"main": "build/index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mrkutly/taboola-react.git"
+	},
+	"bugs": {
+		"url": "https://github.com/mrkutly/taboola-react/issues"
+	},
+	"peerDependencies": {},
+	"dependencies": {
+		"react": "^16.8.6",
+		"webpack": "^2.6.1"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "webpack --watch",
+		"build": "webpack"
+	},
+	"author": "Mark Sauer-Utley",
+	"license": "ISC",
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-core": "^6.24.1",
+		"babel-loader": "^7.0.0",
+		"babel-plugin-transform-object-rest-spread": "^6.23.0",
+		"babel-plugin-transform-react-jsx": "^6.24.1",
+		"babel-preset-env": "^1.5.1"
+	}
 }
