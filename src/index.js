@@ -5,22 +5,29 @@ const viewIds = [];
 class Taboola extends React.Component {
 	constructor(props) {
 		super(props);
-		const location = document.location.href || window.location.href;
+		const { currentUrl } = props;
+		this._newPageLoad = false;
 
 		if (
-			!viewIds.includes(location) &&
+			!viewIds.includes(currentUrl) &&
 			document.getElementById('tb_loader_script')
 		) {
 			window._taboola = window._taboola || [];
 			window._taboola.push({ notify: 'newPageLoad' });
-			viewIds.push(location);
+			viewIds.push(currentUrl);
+			this._newPageLoad = true;
 		}
 	}
 
 	loadScript() {
-		const { publisher, pageType } = this.props;
+		const { publisher, pageType, currentUrl } = this.props;
+		const topInfo = this._newPageLoad
+			? { [pageType]: 'auto', url: currentUrl }
+			: { [pageType]: 'auto' };
+
 		window._taboola = window._taboola || [];
-		window._taboola.push({ [pageType]: 'auto' });
+		window._taboola.push(topInfo);
+
 		(function(e, f, u, i) {
 			if (!document.getElementById(i)) {
 				e.async = 1;

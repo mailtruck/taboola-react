@@ -110,13 +110,15 @@ var Taboola = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (Taboola.__proto__ || Object.getPrototypeOf(Taboola)).call(this, props));
 
-		var location = document.location.href || window.location.href;
-		console.log('viewIds', viewIds);
+		var currentUrl = props.currentUrl;
 
-		if (!viewIds.includes(location) && document.getElementById('tb_loader_script')) {
+		_this._newPageLoad = false;
+
+		if (!viewIds.includes(currentUrl) && document.getElementById('tb_loader_script')) {
 			window._taboola = window._taboola || [];
 			window._taboola.push({ notify: 'newPageLoad' });
-			viewIds.push(location);
+			viewIds.push(currentUrl);
+			_this._newPageLoad = true;
 		}
 		return _this;
 	}
@@ -124,12 +126,18 @@ var Taboola = function (_React$Component) {
 	_createClass(Taboola, [{
 		key: 'loadScript',
 		value: function loadScript() {
+			var _ref;
+
 			var _props = this.props,
 			    publisher = _props.publisher,
-			    pageType = _props.pageType;
+			    pageType = _props.pageType,
+			    currentUrl = _props.currentUrl;
+
+			var topInfo = this._newPageLoad ? (_ref = {}, _defineProperty(_ref, pageType, 'auto'), _defineProperty(_ref, 'url', currentUrl), _ref) : _defineProperty({}, pageType, 'auto');
 
 			window._taboola = window._taboola || [];
-			window._taboola.push(_defineProperty({}, pageType, 'auto'));
+			window._taboola.push(topInfo);
+
 			(function (e, f, u, i) {
 				if (!document.getElementById(i)) {
 					e.async = 1;
@@ -148,11 +156,11 @@ var Taboola = function (_React$Component) {
 		}
 	}, {
 		key: 'loadWidget',
-		value: function loadWidget(_ref) {
-			var mode = _ref.mode,
-			    placement = _ref.placement,
-			    targetType = _ref.targetType,
-			    containerId = _ref.containerId;
+		value: function loadWidget(_ref3) {
+			var mode = _ref3.mode,
+			    placement = _ref3.placement,
+			    targetType = _ref3.targetType,
+			    containerId = _ref3.containerId;
 
 			window._taboola = window._taboola || [];
 			window._taboola.push({
