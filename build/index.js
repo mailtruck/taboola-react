@@ -81,8 +81,10 @@ module.exports = require("react");
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
 
@@ -92,67 +94,109 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Taboola = function () {
-    function loadScript(_ref) {
-        var publisher = _ref.publisher,
-            pageType = _ref.pageType;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-        window._taboola = window._taboola || [];
-        window._taboola.push(_defineProperty({}, pageType, 'auto'));
-        (function (e, f, u, i) {
-            if (!document.getElementById(i)) {
-                e.async = 1;
-                e.src = u;
-                e.id = i;
-                if (!f) {
-                    document.head.append(e);
-                } else {
-                    f.parentNode.insertBefore(e, f);
-                }
-            }
-        })(document.createElement('script'), document.getElementsByTagName('script')[0], 'https://cdn.taboola.com/libtrc/' + publisher + '/loader.js', 'tb_loader_script');
-        if (window.performance && typeof window.performance.mark == 'function') {
-            window.performance.mark('tbl_ic');
-        }
-    }
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-    function formatContainerId(placement) {
-        return placement.toLowerCase().split(' ').join('-');
-    }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-    function loadWidget(_ref2) {
-        var mode = _ref2.mode,
-            placement = _ref2.placement,
-            targetType = _ref2.targetType,
-            containerId = _ref2.containerId;
+var viewIds = [];
 
-        window._taboola = window._taboola || [];
-        window._taboola.push({
-            mode: mode,
-            container: containerId,
-            placement: placement,
-            target_type: targetType
-        });
-    }
+var Taboola = function (_React$Component) {
+	_inherits(Taboola, _React$Component);
 
-    return function (_ref3) {
-        var publisher = _ref3.publisher,
-            mode = _ref3.mode,
-            placement = _ref3.placement,
-            pageType = _ref3.pageType,
-            targetType = _ref3.targetType;
+	function Taboola(props) {
+		_classCallCheck(this, Taboola);
 
-        loadScript({ publisher: publisher, pageType: pageType });
-        var containerId = formatContainerId(placement);
+		var _this = _possibleConstructorReturn(this, (Taboola.__proto__ || Object.getPrototypeOf(Taboola)).call(this, props));
 
-        return _react2.default.createElement(
-            _react2.default.Fragment,
-            null,
-            _react2.default.createElement('div', { id: containerId }),
-            loadWidget({ mode: mode, placement: placement, targetType: targetType, containerId: containerId })
-        );
-    };
-}();
+		var location = document.location.href || window.location.href;
+		console.log('viewIds', viewIds);
+
+		if (!viewIds.includes(location) && document.getElementById('tb_loader_script')) {
+			window._taboola = window._taboola || [];
+			window._taboola.push({ notify: 'newPageLoad' });
+			viewIds.push(location);
+		}
+		return _this;
+	}
+
+	_createClass(Taboola, [{
+		key: 'loadScript',
+		value: function loadScript() {
+			var _props = this.props,
+			    publisher = _props.publisher,
+			    pageType = _props.pageType;
+
+			window._taboola = window._taboola || [];
+			window._taboola.push(_defineProperty({}, pageType, 'auto'));
+			(function (e, f, u, i) {
+				if (!document.getElementById(i)) {
+					e.async = 1;
+					e.src = u;
+					e.id = i;
+					if (!f) {
+						document.head.append(e);
+					} else {
+						f.parentNode.insertBefore(e, f);
+					}
+				}
+			})(document.createElement('script'), document.getElementsByTagName('script')[0], 'https://cdn.taboola.com/libtrc/' + publisher + '/loader.js', 'tb_loader_script');
+			if (window.performance && typeof window.performance.mark == 'function') {
+				window.performance.mark('tbl_ic');
+			}
+		}
+	}, {
+		key: 'loadWidget',
+		value: function loadWidget(_ref) {
+			var mode = _ref.mode,
+			    placement = _ref.placement,
+			    targetType = _ref.targetType,
+			    containerId = _ref.containerId;
+
+			window._taboola = window._taboola || [];
+			window._taboola.push({
+				mode: mode,
+				container: containerId,
+				placement: placement,
+				target_type: targetType
+			});
+		}
+	}, {
+		key: 'formatContainerId',
+		value: function formatContainerId(placement) {
+			var saltedPlacement = placement + '-' + Math.floor(Math.random() * 100000);
+			return saltedPlacement.toLowerCase().split(' ').join('-');
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _props2 = this.props,
+			    publisher = _props2.publisher,
+			    pageType = _props2.pageType;
+
+			this.loadScript({ publisher: publisher, pageType: pageType });
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _props3 = this.props,
+			    mode = _props3.mode,
+			    placement = _props3.placement,
+			    targetType = _props3.targetType;
+
+			var containerId = this.formatContainerId(placement);
+			return _react2.default.createElement(
+				_react2.default.Fragment,
+				null,
+				_react2.default.createElement('div', { id: containerId }),
+				this.loadWidget({ mode: mode, placement: placement, targetType: targetType, containerId: containerId })
+			);
+		}
+	}]);
+
+	return Taboola;
+}(_react2.default.Component);
 
 exports.default = Taboola;
 
