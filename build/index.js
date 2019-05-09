@@ -110,47 +110,23 @@ var Taboola = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (Taboola.__proto__ || Object.getPrototypeOf(Taboola)).call(this, props));
 
-		var currentUrl = props.currentUrl;
-
-		_this._newPageLoad = false;
-
-		// if we have called the loader but have not seen this page before
-		// then we will push the 'newPageLoad' notification and add the currentUrl to the viewIds
-		if (!viewIds.includes(currentUrl) && document.getElementById('tb_loader_script')) {
-			window._taboola = window._taboola || [];
-			window._taboola.push({ notify: 'newPageLoad' });
-			viewIds.push(currentUrl);
-			// we set this boolean to know later if we need to push the url in with the page type
-			_this._newPageLoad = true;
-
-			// if we do not have the loader script and have not been to this page before,
-			// that means it is the first page we are visiting
-		} else if (!viewIds.includes(currentUrl)) {
-			viewIds.push(currentUrl);
-		}
+		_this.state = {
+			loaderCalled: false
+		};
 		return _this;
 	}
 
-	// This function calls the loader
-
-
 	_createClass(Taboola, [{
-		key: 'loadScript',
-		value: function loadScript() {
-			var _ref;
+		key: 'isFirstPage',
+		value: function isFirstPage() {
+			// it is the first page if the loader has not been loaded
+			return !document.getElementById('tb_loader_script');
+		}
+	}, {
+		key: 'callTaboolaLoader',
+		value: function callTaboolaLoader() {
+			var publisher = this.props.publisher;
 
-			var _props = this.props,
-			    publisher = _props.publisher,
-			    pageType = _props.pageType,
-			    currentUrl = _props.currentUrl;
-			// if it's a new page, pass the new url
-
-			var topInfo = this._newPageLoad ? (_ref = {}, _defineProperty(_ref, pageType, 'auto'), _defineProperty(_ref, 'url', currentUrl), _ref) : _defineProperty({}, pageType, 'auto');
-
-			window._taboola = window._taboola || [];
-			window._taboola.push(topInfo);
-
-			// call the loader
 			(function (e, f, u, i) {
 				if (!document.getElementById(i)) {
 					e.async = 1;
@@ -162,10 +138,50 @@ var Taboola = function (_React$Component) {
 						f.parentNode.insertBefore(e, f);
 					}
 				}
-			})(document.createElement('script'), document.getElementsByTagName('script')[0], 'https://cdn.taboola.com/libtrc/' + publisher + '/loader.js', 'tb_loader_script');
+			})(document.createElement('script'), document.getElementsByTagName('script')[0], '//cdn.taboola.com/libtrc/' + publisher + '/loader.js', 'tb_loader_script');
 			if (window.performance && typeof window.performance.mark == 'function') {
 				window.performance.mark('tbl_ic');
 			}
+		}
+	}, {
+		key: 'shouldPushNewPage',
+		value: function shouldPushNewPage() {
+			var currentUrl = this.props.currentUrl;
+			// if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
+
+			return !!document.getElementById('tb_loader_script') && !viewIds.includes(currentUrl);
+		}
+
+		// This function calls the loader
+
+	}, {
+		key: 'onPageLoad',
+		value: function onPageLoad() {
+			var _ref;
+
+			var _props = this.props,
+			    pageType = _props.pageType,
+			    currentUrl = _props.currentUrl;
+
+			// if it's a new page, pass the new url, else pass the page type
+
+			var topInfo = this.shouldPushNewPage() ? (_ref = {}, _defineProperty(_ref, pageType, 'auto'), _defineProperty(_ref, 'url', currentUrl), _ref) : _defineProperty({}, pageType, 'auto');
+
+			window._taboola = window._taboola || [];
+			window._taboola.push(topInfo);
+
+			// if it is a new page, notify a new page has loaded
+			if (this.shouldPushNewPage()) {
+				window._taboola.push({ notify: 'newPageLoad' });
+			}
+
+			// if it's the first page loaded
+			if (this.isFirstPage()) {
+				this.callTaboolaLoader();
+			}
+
+			// finally, mark this page as seen
+			viewIds.push(currentUrl);
 		}
 	}, {
 		key: 'loadWidget',
@@ -192,27 +208,31 @@ var Taboola = function (_React$Component) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			// when the component mounts, call the loader
-			var _props2 = this.props,
-			    publisher = _props2.publisher,
-			    pageType = _props2.pageType;
-
-			this.loadScript({ publisher: publisher, pageType: pageType });
+			try {
+				this.onPageLoad();
+			} catch (e) {
+				console.log('Error in taboola-react-plugin: ', e.message);
+			} finally {
+				this.setState({
+					loaderCalled: true,
+					containerId: this.formatContainerId(this.props.placement)
+				});
+			}
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var _props3 = this.props,
-			    mode = _props3.mode,
-			    placement = _props3.placement,
-			    targetType = _props3.targetType;
+			var _props2 = this.props,
+			    mode = _props2.mode,
+			    placement = _props2.placement,
+			    targetType = _props2.targetType;
+			var containerId = this.state.containerId;
 
-			var containerId = this.formatContainerId(placement);
 			return _react2.default.createElement(
 				_react2.default.Fragment,
 				null,
-				_react2.default.createElement('div', { id: containerId }),
-				this.loadWidget({ mode: mode, placement: placement, targetType: targetType, containerId: containerId })
+				this.state.loaderCalled && _react2.default.createElement('div', { id: containerId }),
+				this.state.loaderCalled && this.loadWidget({ mode: mode, placement: placement, targetType: targetType, containerId: containerId })
 			);
 		}
 	}]);

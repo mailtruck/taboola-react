@@ -5,40 +5,18 @@ const viewIds = [];
 class Taboola extends React.Component {
 	constructor(props) {
 		super(props);
-		const { currentUrl } = props;
-		this._newPageLoad = false;
-
-		// if we have called the loader but have not seen this page before
-		// then we will push the 'newPageLoad' notification and add the currentUrl to the viewIds
-		if (
-			!viewIds.includes(currentUrl) &&
-			document.getElementById('tb_loader_script')
-		) {
-			window._taboola = window._taboola || [];
-			window._taboola.push({ notify: 'newPageLoad' });
-			viewIds.push(currentUrl);
-			// we set this boolean to know later if we need to push the url in with the page type
-			this._newPageLoad = true;
-
-			// if we do not have the loader script and have not been to this page before,
-			// that means it is the first page we are visiting
-		} else if (!viewIds.includes(currentUrl)) {
-			viewIds.push(currentUrl);
-		}
+		this.state = {
+			loaderCalled: false,
+		};
 	}
 
-	// This function calls the loader
-	loadScript() {
-		const { publisher, pageType, currentUrl } = this.props;
-		// if it's a new page, pass the new url
-		const topInfo = this._newPageLoad
-			? { [pageType]: 'auto', url: currentUrl }
-			: { [pageType]: 'auto' };
+	isFirstPage() {
+		// it is the first page if the loader has not been loaded
+		return !document.getElementById('tb_loader_script');
+	}
 
-		window._taboola = window._taboola || [];
-		window._taboola.push(topInfo);
-
-		// call the loader
+	callTaboolaLoader() {
+		const { publisher } = this.props;
 		(function(e, f, u, i) {
 			if (!document.getElementById(i)) {
 				e.async = 1;
@@ -53,12 +31,47 @@ class Taboola extends React.Component {
 		})(
 			document.createElement('script'),
 			document.getElementsByTagName('script')[0],
-			`https://cdn.taboola.com/libtrc/${publisher}/loader.js`,
+			`//cdn.taboola.com/libtrc/${publisher}/loader.js`,
 			'tb_loader_script'
 		);
 		if (window.performance && typeof window.performance.mark == 'function') {
 			window.performance.mark('tbl_ic');
 		}
+	}
+
+	shouldPushNewPage() {
+		const { currentUrl } = this.props;
+		// if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
+		return (
+			!!document.getElementById('tb_loader_script') &&
+			!viewIds.includes(currentUrl)
+		);
+	}
+
+	// This function calls the loader
+	onPageLoad() {
+		const { pageType, currentUrl } = this.props;
+
+		// if it's a new page, pass the new url, else pass the page type
+		const topInfo = this.shouldPushNewPage()
+			? { [pageType]: 'auto', url: currentUrl }
+			: { [pageType]: 'auto' };
+
+		window._taboola = window._taboola || [];
+		window._taboola.push(topInfo);
+
+		// if it is a new page, notify a new page has loaded
+		if (this.shouldPushNewPage()) {
+			window._taboola.push({ notify: 'newPageLoad' });
+		}
+
+		// if it's the first page loaded
+		if (this.isFirstPage()) {
+			this.callTaboolaLoader();
+		}
+
+		// finally, mark this page as seen
+		viewIds.push(currentUrl);
 	}
 
 	loadWidget({ mode, placement, targetType, containerId }) {
@@ -82,18 +95,26 @@ class Taboola extends React.Component {
 	}
 
 	componentDidMount() {
-		// when the component mounts, call the loader
-		const { publisher, pageType } = this.props;
-		this.loadScript({ publisher, pageType });
+		try {
+			this.onPageLoad();
+		} catch (e) {
+			console.log('Error in taboola-react-plugin: ', e.message);
+		} finally {
+			this.setState({
+				loaderCalled: true,
+				containerId: this.formatContainerId(this.props.placement),
+			});
+		}
 	}
 
 	render() {
 		const { mode, placement, targetType } = this.props;
-		const containerId = this.formatContainerId(placement);
+		const { containerId } = this.state;
 		return (
 			<React.Fragment>
-				<div id={containerId} />
-				{this.loadWidget({ mode, placement, targetType, containerId })}
+				{this.state.loaderCalled && <div id={containerId} />}
+				{this.state.loaderCalled &&
+					this.loadWidget({ mode, placement, targetType, containerId })}
 			</React.Fragment>
 		);
 	}
