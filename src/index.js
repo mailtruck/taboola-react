@@ -61,9 +61,10 @@ class Taboola extends React.Component {
 	// This function calls the loader
 	onPageLoad() {
 		const { pageType, currentUrl } = this.props;
+		const shouldPushNewPage = this.shouldPushNewPage();
 
 		// if it's a new page, pass the new url, else pass the page type
-		const topInfo = this.shouldPushNewPage()
+		const topInfo = shouldPushNewPage
 			? { [pageType]: 'auto', url: currentUrl }
 			: { [pageType]: 'auto' };
 
@@ -71,11 +72,11 @@ class Taboola extends React.Component {
 		window._taboola.push(topInfo);
 
 		// if it is a new page, notify a new page has loaded
-		if (this.shouldPushNewPage()) {
+		if (shouldPushNewPage) {
 			window._taboola.push({ notify: 'newPageLoad' });
 		}
 
-		// if it's the first page loaded
+		// if the loader is not loaded, call it
 		if (this.isFirstPage()) {
 			this.callTaboolaLoader();
 		}
