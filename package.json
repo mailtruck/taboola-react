@@ -12,6 +12,7 @@
 	},
 	"peerDependencies": {},
 	"dependencies": {
+		"prop-types": "^15.7.2",
 		"react": "^16.8.6",
 		"webpack": "^2.6.1"
 	},

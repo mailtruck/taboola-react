@@ -1,8 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const viewIds = [];
 
 class Taboola extends React.Component {
+	static propTypes = {
+		currentUrls: PropTypes.string.isRequired,
+		mode: PropTypes.string.isRequired,
+		pageType: PropTypes.string.isRequired,
+		placement: PropTypes.string.isRequired,
+		publisher: PropTypes.string.isRequired,
+		targetType: PropTypes.string.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -75,13 +85,17 @@ class Taboola extends React.Component {
 	}
 
 	loadWidget({ mode, placement, targetType, containerId }) {
-		window._taboola = window._taboola || [];
-		window._taboola.push({
-			mode,
-			container: containerId,
-			placement,
-			target_type: targetType,
-		});
+		try {
+			window._taboola = window._taboola || [];
+			window._taboola.push({
+				mode,
+				container: containerId,
+				placement,
+				target_type: targetType,
+			});
+		} catch (e) {
+			console.log('Error in taboola-react-plugin: ' + e.message);
+		}
 	}
 
 	formatContainerId(placement) {
