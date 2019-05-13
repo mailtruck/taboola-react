@@ -128,7 +128,7 @@ class Taboola extends React.Component {
 			<React.Fragment>
 				{this.state.loaderCalled && <div id={containerId} />}
 				{this.state.loaderCalled &&
-					this.state.containerId &&
+					containerId &&
 					this.loadWidget({ mode, placement, targetType, containerId })}
 			</React.Fragment>
 		);
