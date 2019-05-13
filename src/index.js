@@ -5,7 +5,7 @@ const viewIds = [];
 
 class Taboola extends React.Component {
 	static propTypes = {
-		currentUrls: PropTypes.string.isRequired,
+		currentUrl: PropTypes.string.isRequired,
 		mode: PropTypes.string.isRequired,
 		pageType: PropTypes.string.isRequired,
 		placement: PropTypes.string.isRequired,
