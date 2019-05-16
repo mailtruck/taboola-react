@@ -1,18 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const viewIds = [];
+let currentView = '';
 
 class Taboola extends React.Component {
-	static propTypes = {
-		currentUrl: PropTypes.string.isRequired,
-		mode: PropTypes.string.isRequired,
-		pageType: PropTypes.string.isRequired,
-		placement: PropTypes.string.isRequired,
-		publisher: PropTypes.string.isRequired,
-		targetType: PropTypes.string.isRequired,
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -54,17 +45,16 @@ class Taboola extends React.Component {
 		// if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
 		return (
 			!!document.getElementById('tb_loader_script') &&
-			!viewIds.includes(currentUrl)
+			!currentView === currentUrl
 		);
 	}
 
 	// This function calls the loader
 	onPageLoad() {
 		const { pageType, currentUrl } = this.props;
-		const shouldPushNewPage = this.shouldPushNewPage();
 
 		// if it's a new page, pass the new url, else pass the page type
-		const topInfo = shouldPushNewPage
+		const topInfo = this.shouldPushNewPage()
 			? { [pageType]: 'auto', url: currentUrl }
 			: { [pageType]: 'auto' };
 
@@ -72,17 +62,17 @@ class Taboola extends React.Component {
 		window._taboola.push(topInfo);
 
 		// if it is a new page, notify a new page has loaded
-		if (shouldPushNewPage) {
+		if (this.shouldPushNewPage()) {
 			window._taboola.push({ notify: 'newPageLoad' });
 		}
 
-		// if the loader is not loaded, call it
+		// if it's the first page loaded
 		if (this.isFirstPage()) {
 			this.callTaboolaLoader();
 		}
 
 		// finally, mark this page as seen
-		viewIds.push(currentUrl);
+		currentView = currentUrl;
 	}
 
 	loadWidget({ mode, placement, targetType, containerId }) {
@@ -115,10 +105,20 @@ class Taboola extends React.Component {
 		} catch (e) {
 			console.log('Error in taboola-react-plugin: ', e.message);
 		} finally {
+			currentView = '';
 			this.setState({
 				loaderCalled: true,
 				containerId: this.formatContainerId(this.props.placement),
 			});
+		}
+	}
+
+	componentWillUnmount() {
+		// clean up next ups
+		const nextUp = document.querySelector('#tbl-next-up');
+
+		if (nextUp) {
+			nextUp.remove();
 		}
 	}
 
@@ -135,5 +135,12 @@ class Taboola extends React.Component {
 		);
 	}
 }
-
+Taboola.propTypes = {
+	currentUrl: PropTypes.string.isRequired,
+	mode: PropTypes.string.isRequired,
+	pageType: PropTypes.string.isRequired,
+	placement: PropTypes.string.isRequired,
+	publisher: PropTypes.string.isRequired,
+	targetType: PropTypes.string.isRequired,
+};
 export default Taboola;
