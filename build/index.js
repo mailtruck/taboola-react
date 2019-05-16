@@ -354,7 +354,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var viewIds = [];
+var currentView = '';
 
 var Taboola = function (_React$Component) {
 	_inherits(Taboola, _React$Component);
@@ -403,7 +403,7 @@ var Taboola = function (_React$Component) {
 			var currentUrl = this.props.currentUrl;
 			// if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
 
-			return !!document.getElementById('tb_loader_script') && !viewIds.includes(currentUrl);
+			return !!document.getElementById('tb_loader_script') && !currentView === currentUrl;
 		}
 
 		// This function calls the loader
@@ -435,7 +435,7 @@ var Taboola = function (_React$Component) {
 			}
 
 			// finally, mark this page as seen
-			viewIds.push(currentUrl);
+			currentView = currentUrl;
 		}
 	}, {
 		key: 'loadWidget',
@@ -471,6 +471,7 @@ var Taboola = function (_React$Component) {
 			} catch (e) {
 				console.log('Error in taboola-react-plugin: ', e.message);
 			} finally {
+				currentView = '';
 				this.setState({
 					loaderCalled: true,
 					containerId: this.formatContainerId(this.props.placement)
