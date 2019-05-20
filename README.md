@@ -1,4 +1,4 @@
-# Taboola React Plugin
+# Taboola React Plugin - UNOFFICIAL - DO NOT USE
 
 This [npm package](https://www.npmjs.com/package/@mrkutly/taboola-react-plugin) allows a publisher to easily load their taboola assets into their React application.
 
@@ -43,4 +43,4 @@ And that's all!
 
 ## Issues
 
-For any issues, email mark.sauer.utley@taboola.com
+For any issues, email mark.sauer.utley@gmail.com
