@@ -325,199 +325,204 @@ module.exports = require("react");
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(3);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 var currentView = '';
 
-var Taboola = function (_React$Component) {
-	_inherits(Taboola, _React$Component);
+var Taboola =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Taboola, _React$Component);
 
-	function Taboola(props) {
-		_classCallCheck(this, Taboola);
+  function Taboola(props) {
+    var _this;
 
-		var _this = _possibleConstructorReturn(this, (Taboola.__proto__ || Object.getPrototypeOf(Taboola)).call(this, props));
+    _classCallCheck(this, Taboola);
 
-		_this.state = {
-			loaderCalled: false
-		};
-		return _this;
-	}
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Taboola).call(this, props));
+    _this.state = {
+      loaderCalled: false
+    };
+    return _this;
+  }
 
-	_createClass(Taboola, [{
-		key: 'isFirstPage',
-		value: function isFirstPage() {
-			// it is the first page if the loader has not been loaded
-			return !document.getElementById('tb_loader_script');
-		}
-	}, {
-		key: 'callTaboolaLoader',
-		value: function callTaboolaLoader() {
-			var publisher = this.props.publisher;
+  _createClass(Taboola, [{
+    key: "isFirstPage",
+    value: function isFirstPage() {
+      // it is the first page if the loader has not been loaded
+      return !document.getElementById('tb_loader_script');
+    }
+  }, {
+    key: "callTaboolaLoader",
+    value: function callTaboolaLoader() {
+      var publisher = this.props.publisher;
 
-			(function (e, f, u, i) {
-				if (!document.getElementById(i)) {
-					e.async = 1;
-					e.src = u;
-					e.id = i;
-					if (!f) {
-						document.head.append(e);
-					} else {
-						f.parentNode.insertBefore(e, f);
-					}
-				}
-			})(document.createElement('script'), document.getElementsByTagName('script')[0], '//cdn.taboola.com/libtrc/' + publisher + '/loader.js', 'tb_loader_script');
-			if (window.performance && typeof window.performance.mark == 'function') {
-				window.performance.mark('tbl_ic');
-			}
-		}
-	}, {
-		key: 'shouldPushNewPage',
-		value: function shouldPushNewPage() {
-			var currentUrl = this.props.currentUrl;
-			// if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
+      (function (e, f, u, i) {
+        if (!document.getElementById(i)) {
+          e.async = 1;
+          e.src = u;
+          e.id = i;
 
-			return !!document.getElementById('tb_loader_script') && !currentView === currentUrl;
-		}
+          if (!f) {
+            document.head.append(e);
+          } else {
+            f.parentNode.insertBefore(e, f);
+          }
+        }
+      })(document.createElement('script'), document.getElementsByTagName('script')[0], "//cdn.taboola.com/libtrc/".concat(publisher, "/loader.js"), 'tb_loader_script');
 
-		// This function calls the loader
+      if (window.performance && typeof window.performance.mark == 'function') {
+        window.performance.mark('tbl_ic');
+      }
+    }
+  }, {
+    key: "shouldPushNewPage",
+    value: function shouldPushNewPage() {
+      var currentUrl = this.props.currentUrl; // if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
 
-	}, {
-		key: 'onPageLoad',
-		value: function onPageLoad() {
-			var _ref;
+      return !!document.getElementById('tb_loader_script') && !currentView === currentUrl;
+    } // This function calls the loader
 
-			var _props = this.props,
-			    pageType = _props.pageType,
-			    currentUrl = _props.currentUrl;
+  }, {
+    key: "onPageLoad",
+    value: function onPageLoad() {
+      var _ref;
 
-			// if it's a new page, pass the new url, else pass the page type
+      var _this$props = this.props,
+          pageType = _this$props.pageType,
+          currentUrl = _this$props.currentUrl; // if it's a new page, pass the new url, else pass the page type
 
-			var topInfo = this.shouldPushNewPage() ? (_ref = {}, _defineProperty(_ref, pageType, 'auto'), _defineProperty(_ref, 'url', currentUrl), _ref) : _defineProperty({}, pageType, 'auto');
+      var topInfo = this.shouldPushNewPage() ? (_ref = {}, _defineProperty(_ref, pageType, 'auto'), _defineProperty(_ref, "url", currentUrl), _ref) : _defineProperty({}, pageType, 'auto');
+      window._taboola = window._taboola || [];
 
-			window._taboola = window._taboola || [];
-			window._taboola.push(topInfo);
+      window._taboola.push(topInfo); // if it is a new page, notify a new page has loaded
 
-			// if it is a new page, notify a new page has loaded
-			if (this.shouldPushNewPage()) {
-				window._taboola.push({ notify: 'newPageLoad' });
-			}
 
-			// if it's the first page loaded
-			if (this.isFirstPage()) {
-				this.callTaboolaLoader();
-			}
+      if (this.shouldPushNewPage()) {
+        window._taboola.push({
+          notify: 'newPageLoad'
+        });
+      } // if it's the first page loaded
 
-			// finally, mark this page as seen
-			currentView = currentUrl;
-		}
-	}, {
-		key: 'loadWidget',
-		value: function loadWidget(_ref3) {
-			var mode = _ref3.mode,
-			    placement = _ref3.placement,
-			    targetType = _ref3.targetType,
-			    containerId = _ref3.containerId;
 
-			try {
-				window._taboola = window._taboola || [];
-				window._taboola.push({
-					mode: mode,
-					container: containerId,
-					placement: placement,
-					target_type: targetType
-				});
-			} catch (e) {
-				console.log('Error in taboola-react-plugin: ' + e.message);
-			}
-		}
-	}, {
-		key: 'formatContainerId',
-		value: function formatContainerId(placement) {
-			var saltedPlacement = placement + '-' + Math.floor(Math.random() * 100000);
-			return saltedPlacement.toLowerCase().split(' ').join('-');
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			try {
-				this.onPageLoad();
-			} catch (e) {
-				console.log('Error in taboola-react-plugin: ', e.message);
-			} finally {
-				currentView = '';
-				this.setState({
-					loaderCalled: true,
-					containerId: this.formatContainerId(this.props.placement)
-				});
-			}
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			// clean up next ups
-			var nextUp = document.querySelector('#tbl-next-up');
+      if (this.isFirstPage()) {
+        this.callTaboolaLoader();
+      } // finally, mark this page as seen
 
-			if (nextUp) {
-				nextUp.remove();
-			}
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _props2 = this.props,
-			    mode = _props2.mode,
-			    placement = _props2.placement,
-			    targetType = _props2.targetType;
-			var containerId = this.state.containerId;
 
-			return _react2.default.createElement(
-				_react2.default.Fragment,
-				null,
-				this.state.loaderCalled && _react2.default.createElement('div', { id: containerId }),
-				this.state.loaderCalled && containerId && this.loadWidget({ mode: mode, placement: placement, targetType: targetType, containerId: containerId })
-			);
-		}
-	}]);
+      currentView = currentUrl;
+    }
+  }, {
+    key: "loadWidget",
+    value: function loadWidget(_ref3) {
+      var mode = _ref3.mode,
+          placement = _ref3.placement,
+          targetType = _ref3.targetType,
+          containerId = _ref3.containerId;
 
-	return Taboola;
-}(_react2.default.Component);
+      try {
+        window._taboola = window._taboola || [];
+
+        window._taboola.push({
+          mode: mode,
+          container: containerId,
+          placement: placement,
+          target_type: targetType
+        });
+      } catch (e) {
+        console.log('Error in taboola-react-plugin: ' + e.message);
+      }
+    }
+  }, {
+    key: "formatContainerId",
+    value: function formatContainerId(placement) {
+      var saltedPlacement = "".concat(placement, "-").concat(Math.floor(Math.random() * 100000));
+      return saltedPlacement.toLowerCase().split(' ').join('-');
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      try {
+        this.onPageLoad();
+      } catch (e) {
+        console.log('Error in taboola-react-plugin: ', e.message);
+      } finally {
+        currentView = '';
+        this.setState({
+          loaderCalled: true,
+          containerId: this.formatContainerId(this.props.placement)
+        });
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      // clean up next ups
+      var nextUp = document.querySelector('#tbl-next-up');
+
+      if (nextUp) {
+        nextUp.remove();
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props2 = this.props,
+          mode = _this$props2.mode,
+          placement = _this$props2.placement,
+          targetType = _this$props2.targetType;
+      var containerId = this.state.containerId;
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment, null, this.state.loaderCalled && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        id: containerId
+      }), this.state.loaderCalled && containerId && this.loadWidget({
+        mode: mode,
+        placement: placement,
+        targetType: targetType,
+        containerId: containerId
+      }));
+    }
+  }]);
+
+  return Taboola;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
 
 Taboola.propTypes = {
-	currentUrl: _propTypes2.default.string.isRequired,
-	mode: _propTypes2.default.string.isRequired,
-	pageType: _propTypes2.default.string.isRequired,
-	placement: _propTypes2.default.string.isRequired,
-	publisher: _propTypes2.default.string.isRequired,
-	targetType: _propTypes2.default.string.isRequired
+  currentUrl: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  mode: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  pageType: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  placement: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  publisher: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  targetType: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired
 };
-exports.default = Taboola;
+/* harmony default export */ __webpack_exports__["default"] = (Taboola);
 
 /***/ }),
 /* 6 */
