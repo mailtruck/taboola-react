@@ -21,24 +21,22 @@ Most of the props you pass it will be the params you received from Taboola for y
 import React from 'react';
 import Taboola from '@mrkutly/taboola-react-plugin';
 
-export default (props) => {
-	return (
-        <div>
-            <h1>These dogs do amazing tricks<h1>
-            <div>
-                <p>This is the article about dogs<p>
-            </div>
-			<Taboola
-				currentUrl={'https://www.awesomenews.com/amazing-article-about-dogs-who-do-tricks'}
-				publisher={'awesomenews'}
-				pageType={'article'}
-				placement={'Below Article Thumbnails'}
-				mode={'thumbnails-a'}
-				targetType={'mix'}
-			/>
-		</div>
-	);
-};
+export default (props) => (
+	<div>
+		<h1>These dogs do amazing tricks<h1>
+		<div>
+			<p>This is the article about dogs<p>
+            	</div>
+		<Taboola
+			currentUrl={'https://www.awesomenews.com/amazing-article-about-dogs-who-do-tricks'}
+			publisher={'awesomenews'}
+			pageType={'article'}
+			placement={'Below Article Thumbnails'}
+			mode={'thumbnails-a'}
+			targetType={'mix'}
+		/>
+	</div>
+);
 ```
 
 And that's all!
