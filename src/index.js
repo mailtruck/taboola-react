@@ -1,7 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-let currentView = '';
+// let currentView = '';
+
+const currentView = {
+	view: '',
+	setView: function(view) {
+		this.view = view;
+	},
+	getView: function() {
+		return this.view;
+	},
+};
 
 class Taboola extends React.Component {
 	constructor(props) {
@@ -45,7 +55,7 @@ class Taboola extends React.Component {
 		// if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
 		return (
 			!!document.getElementById('tb_loader_script') &&
-			!currentView === currentUrl
+			!currentView.getView() === currentUrl
 		);
 	}
 
@@ -72,7 +82,7 @@ class Taboola extends React.Component {
 		}
 
 		// finally, mark this page as seen
-		currentView = currentUrl;
+		currentView.setView(currentUrl);
 	}
 
 	loadWidget({ mode, placement, targetType, containerId }) {
@@ -105,7 +115,7 @@ class Taboola extends React.Component {
 		} catch (e) {
 			console.log('Error in taboola-react-plugin: ', e.message);
 		} finally {
-			currentView = '';
+			currentView.setView('');
 			this.setState({
 				loaderCalled: true,
 				containerId: this.formatContainerId(this.props.placement),
