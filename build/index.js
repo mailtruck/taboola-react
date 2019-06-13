@@ -354,8 +354,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
+ // let currentView = '';
 
-var currentView = '';
+var currentView = {
+  view: '',
+  setView: function setView(view) {
+    this.view = view;
+  },
+  getView: function getView() {
+    return this.view;
+  }
+};
 
 var Taboola =
 /*#__PURE__*/
@@ -408,7 +417,7 @@ function (_React$Component) {
     value: function shouldPushNewPage() {
       var currentUrl = this.props.currentUrl; // if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
 
-      return !!document.getElementById('tb_loader_script') && !currentView === currentUrl;
+      return !!document.getElementById('tb_loader_script') && !currentView.getView() === currentUrl;
     } // This function calls the loader
 
   }, {
@@ -438,7 +447,7 @@ function (_React$Component) {
       } // finally, mark this page as seen
 
 
-      currentView = currentUrl;
+      currentView.setView(currentUrl);
     }
   }, {
     key: "loadWidget",
@@ -475,7 +484,7 @@ function (_React$Component) {
       } catch (e) {
         console.log('Error in taboola-react-plugin: ', e.message);
       } finally {
-        currentView = '';
+        currentView.setView('');
         this.setState({
           loaderCalled: true,
           containerId: this.formatContainerId(this.props.placement)
