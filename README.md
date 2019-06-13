@@ -9,7 +9,9 @@ Installation is very simple. Just add the plugin to your project by running.
 
 ## Integration
 
-To use the plugin, simply import it into the component where you would like it to render:
+To use the plugin, you will need to include your publisher loader script in the head tag of you index.html file (or inside the head tags of your each of your pages if you are using SSR like in Gatsby or Next.js).
+
+Then, simply import it into the component where you would like it to render:
 
 ```javascript
 import Taboola from '@mrkutly/taboola-react-plugin';

@@ -378,48 +378,19 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Taboola).call(this, props));
     _this.state = {
-      loaderCalled: false
+      containerId: null
     };
     return _this;
   }
 
   _createClass(Taboola, [{
-    key: "isFirstPage",
-    value: function isFirstPage() {
-      // it is the first page if the loader has not been loaded
-      return !document.getElementById('tb_loader_script');
-    }
-  }, {
-    key: "callTaboolaLoader",
-    value: function callTaboolaLoader() {
-      var publisher = this.props.publisher;
-
-      (function (e, f, u, i) {
-        if (!document.getElementById(i)) {
-          e.async = 1;
-          e.src = u;
-          e.id = i;
-
-          if (!f) {
-            document.head.append(e);
-          } else {
-            f.parentNode.insertBefore(e, f);
-          }
-        }
-      })(document.createElement('script'), document.getElementsByTagName('script')[0], "//cdn.taboola.com/libtrc/".concat(publisher, "/loader.js"), 'tb_loader_script');
-
-      if (window.performance && typeof window.performance.mark == 'function') {
-        window.performance.mark('tbl_ic');
-      }
-    }
-  }, {
     key: "shouldPushNewPage",
     value: function shouldPushNewPage() {
-      var currentUrl = this.props.currentUrl; // if we have the loader but this is a new URL, we should push the notify-new-page event and the currentUrl
+      var currentUrl = this.props.currentUrl; // if this is a new URL and the currentUrl is not an empty string (meaning it is the first page loaded),
+      // we should push the notify-new-page event and the currentUrl
 
-      return !!document.getElementById('tb_loader_script') && !currentView.getView() === currentUrl;
-    } // This function calls the loader
-
+      return currentView.getView() !== '' && currentView.getView() !== currentUrl;
+    }
   }, {
     key: "onPageLoad",
     value: function onPageLoad() {
@@ -439,11 +410,6 @@ function (_React$Component) {
         window._taboola.push({
           notify: 'newPageLoad'
         });
-      } // if it's the first page loaded
-
-
-      if (this.isFirstPage()) {
-        this.callTaboolaLoader();
       } // finally, mark this page as seen
 
 
@@ -484,9 +450,7 @@ function (_React$Component) {
       } catch (e) {
         console.log('Error in taboola-react-plugin: ', e.message);
       } finally {
-        currentView.setView('');
         this.setState({
-          loaderCalled: true,
           containerId: this.formatContainerId(this.props.placement)
         });
       }
@@ -509,9 +473,9 @@ function (_React$Component) {
           placement = _this$props2.placement,
           targetType = _this$props2.targetType;
       var containerId = this.state.containerId;
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment, null, this.state.loaderCalled && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment, null, containerId && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         id: containerId
-      }), this.state.loaderCalled && containerId && this.loadWidget({
+      }), containerId && this.loadWidget({
         mode: mode,
         placement: placement,
         targetType: targetType,
