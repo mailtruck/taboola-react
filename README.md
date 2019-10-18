@@ -4,7 +4,7 @@ This [npm package](https://www.npmjs.com/package/@mrkutly/taboola-react-plugin) 
 
 ## Installation
 
-Installation is very simple. Just add the plugin to your project by running.
+Add the plugin to your project by running:
 `npm install @mrkutly/taboola-react-plugin`
 
 ## Integration
