@@ -1,7 +1,7 @@
 {
 	"name": "@mailtruck/taboola-react-plugin",
-	"version": "1.0.17`",
-	"description": "Plugin for implementing taboola in react projects",
+	"version": "1.0.17",
+	"description": "FORK Plugin for implementing taboola in react projects",
 	"main": "build/index.js",
 	"repository": {
 		"type": "git",
@@ -10,10 +10,10 @@
 	"peerDependencies": {},
 	"dependencies": {
 		"prop-types": "^15.7.2",
-		"react": "^16.8.6",
+		"react": "^16.8.6"
 	},
 	"scripts": {
-		"test": "jest",
+		"test": "jest"
 	},
 	"author": "Mark Sauer-Utley",
 	"license": "ISC",
