@@ -1,11 +1,6 @@
-# Taboola React Plugin - UNOFFICIAL - DO NOT USE
+# Taboola React Plugin - FORK https://www.npmjs.com/package/@mrkutly/taboola-react-plugin
 
-This [npm package](https://www.npmjs.com/package/@mrkutly/taboola-react-plugin) allows a publisher to easily load their taboola assets into their React application.
-
-## Installation
-
-Add the plugin to your project by running:
-`npm install @mrkutly/taboola-react-plugin`
+forked to remove webpack dependency
 
 ## Integration
 
@@ -30,7 +25,7 @@ To use the plugin, you will need to include your publisher loader script in the 
 Then, simply import it into the component where you would like it to render:
 
 ```javascript
-import Taboola from '@mrkutly/taboola-react-plugin';
+import Taboola from '@mailtruck/taboola-react-plugin';
 ```
 
 Most of the props you pass it will be the params you received from Taboola for your asset. The only extra prop it needs it the URL of the current page (this allows us to accurately count your page views and crawl your article pages).
@@ -56,9 +51,3 @@ export default (props) => (
 	</div>
 );
 ```
-
-And that's all!
-
-## Issues
-
-For any issues, email mark.sauer.utley@gmail.com

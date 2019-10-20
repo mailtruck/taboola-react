@@ -1,25 +1,19 @@
 {
-	"name": "@mrkutly/taboola-react-plugin",
-	"version": "1.0.16",
+	"name": "@mailtruck/taboola-react-plugin",
+	"version": "1.0.17`",
 	"description": "Plugin for implementing taboola in react projects",
 	"main": "build/index.js",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/mrkutly/taboola-react.git"
-	},
-	"bugs": {
-		"url": "https://github.com/mrkutly/taboola-react/issues"
+		"url": "git+https://github.com/mailtruck/taboola-react.git"
 	},
 	"peerDependencies": {},
 	"dependencies": {
 		"prop-types": "^15.7.2",
 		"react": "^16.8.6",
-		"webpack": "^2.6.1"
 	},
 	"scripts": {
 		"test": "jest",
-		"start": "webpack --watch",
-		"build": "webpack"
 	},
 	"author": "Mark Sauer-Utley",
 	"license": "ISC",
