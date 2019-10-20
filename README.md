@@ -32,7 +32,7 @@ Most of the props you pass it will be the params you received from Taboola for y
 
 ```jsx
 import React from 'react';
-import Taboola from '@mrkutly/taboola-react-plugin';
+import Taboola from '@mailtruck/taboola-react-plugin';
 
 export default (props) => (
 	<div>
